@@ -21,17 +21,34 @@ public class Army {
 	}
 
 	public Army attack(Army otherArmy) {
-		this.getFrontSoldier().attack(otherArmy.getFrontSoldier());
+		while (moreSoldierToKill(otherArmy)) {
+			this.getFrontSoldier().attack(otherArmy.getFrontSoldier());
+			solveArmyState();
+			otherArmy.solveArmyState();
+		}
+
+		return getWinner(otherArmy);
+	}
+
+	private Army getWinner(Army otherArmy) {
+		if (this.getSoldiersCount() == 0)
+			return otherArmy;
 		
+		return this;
+	}
+
+	private void solveArmyState() {
 		if (!this.getFrontSoldier().isAlive()) {
 			removeFrontSoldier();
 		}
-		
-		if (!otherArmy.getFrontSoldier().isAlive()) {
-			otherArmy.removeFrontSoldier();
-		}
-		
-		return this;
+	}
+
+	private boolean moreSoldierToKill(Army otherArmy) {
+		return getSoldiersCount() > 0 && otherArmy.getSoldiersCount() > 0;
+	}
+
+	private int getSoldiersCount() {
+		return this.soldiers.size();
 	}
 
 	private void removeFrontSoldier() {

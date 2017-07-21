@@ -45,9 +45,21 @@ public class ArmyTest {
     }
     
     @Test
-    public void Army_attackArmy_() {
+    public void Army_attackArmyOfOneSoldier_ThanWinnerIsAttacker() {
     	Army armyA = getArmy("A", 1);
     	Army armyB = getArmy("B", 1);
+    	
+    	Army winner = armyA.attack(armyB);
+    	
+        Assertions.assertThat(winner.getFrontSoldier()).isNotNull();
+        Assertions.assertThat(winner).isEqualTo(armyA);
+        Assertions.assertThat(armyB.getFrontSoldier()).isNull();
+    }
+    
+    @Test
+    public void Army_attackArmyOfTwoSoldiers_ThanWinnerIsAttacker() {
+    	Army armyA = getArmy("A", 2);
+    	Army armyB = getArmy("B", 2);
     	
     	Army winner = armyA.attack(armyB);
     	
