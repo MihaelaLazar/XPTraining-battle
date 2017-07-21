@@ -1,5 +1,6 @@
 package be.cegeka.battle;
 
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -102,12 +103,24 @@ public class ArmyTest {
     public void soldier_SoldierEnlisted_HQCalledWithIdAssigned() {
     	Soldier soldier = new Soldier("name");
     	Army army = new Army(headquarters);
-    	
     	when(headquarters.reportEnlistment("name")).thenReturn(1000);
     	
     	army.addSoldier(soldier);
     	
     	verify(headquarters).reportEnlistment("name");
     	Assertions.assertThat(soldier.getId()).isEqualTo(1000);
+    }
+
+    @Test
+    public void soldier_SoldierDies_HQCalledWIthSoldierID() {
+        when(headquarters.reportEnlistment("B0")).thenReturn(1000);
+        when(headquarters.reportEnlistment("A0")).thenReturn(2000);
+        Army armyA = getArmy("A", 1);
+        Army armyB = getArmy("B", 1);
+
+        armyA.attack(armyB);
+
+        verify(headquarters).reportCasualty(1000);
+        verify(headquarters, never()).reportCasualty(2000);
     }
 }

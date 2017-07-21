@@ -60,6 +60,7 @@ public class Army {
 	}
 
 	private void removeFrontSoldier() {
-		this.soldiers.remove(0);
+		Soldier soldier = this.soldiers.remove(0);
+		this.headquarters.reportCasualty(soldier.getId());
 	}
 }

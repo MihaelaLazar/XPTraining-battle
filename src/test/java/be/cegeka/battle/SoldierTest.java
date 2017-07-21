@@ -65,4 +65,6 @@ public class SoldierTest {
         assertThat(firstSoldier.isAlive()).isTrue();
         assertThat(secondSoldier.isAlive()).isFalse();
     }
+
+
 }
