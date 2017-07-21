@@ -25,7 +25,7 @@ public class SoldierTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void construction_ASoldierMustHaveAName_CannotBeBlank() {
-        new Soldier("   ");
+        new Soldier("    ");
     }
 
 }
