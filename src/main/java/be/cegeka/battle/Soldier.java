@@ -31,16 +31,22 @@ public class Soldier {
     }
 
     public void attack(Soldier secondSoldier) {
-        if (weapon.getDamage() > secondSoldier.getWeapon().getDamage()) {
-            secondSoldier.died();
-        } else this.died();
+        if (this.getWeaponDamage() < secondSoldier.getWeaponDamage()) {
+            this.dies();
+        } else {
+            secondSoldier.dies();
+        }
     }
 
-    private void died() {
+    private void dies() {
         this.isAlive =  false;
     }
 
     public boolean isAlive() {
         return isAlive;
+    }
+
+    public int getWeaponDamage() {
+        return weapon.getDamage();
     }
 }

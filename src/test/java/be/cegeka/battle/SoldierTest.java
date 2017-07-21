@@ -55,4 +55,14 @@ public class SoldierTest {
         assertThat(firstSoldier.isAlive()).isTrue();
         assertThat(secondSoldier.isAlive()).isFalse();
     }
+
+    @Test
+    public void attack_SoldierAttacksSoldierWithSameWeapon_attackerWins() {
+        Soldier firstSoldier = new Soldier("name");
+        Soldier secondSoldier = new Soldier("name");
+
+        firstSoldier.attack(secondSoldier);
+        assertThat(firstSoldier.isAlive()).isTrue();
+        assertThat(secondSoldier.isAlive()).isFalse();
+    }
 }
