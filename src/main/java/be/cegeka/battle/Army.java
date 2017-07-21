@@ -34,7 +34,7 @@ public class Army {
 			solveArmyState();
 			otherArmy.solveArmyState();
 		}
-
+		headquarters.reportVictory(getWinner(otherArmy).getSoldiersCount());
 		return getWinner(otherArmy);
 	}
 

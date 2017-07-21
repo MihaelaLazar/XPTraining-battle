@@ -123,4 +123,14 @@ public class ArmyTest {
         verify(headquarters).reportCasualty(1000);
         verify(headquarters, never()).reportCasualty(2000);
     }
+
+    @Test
+    public void army_whenArmyWins_NumberOfRemainedSoldiersReturnedToHQ(){
+        Army armyA = getArmy("A", 2);
+        Army armyB = getArmy("B", 1);
+
+        armyA.attack(armyB);
+
+        verify(headquarters).reportVictory(2);
+    }
 }
