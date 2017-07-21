@@ -4,6 +4,13 @@ import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 public class ArmyTest {
+	
+	@Test
+    public void Army_NoSoldierToArmy_ArmyHasNoFrontSoldier() {
+        Army army = new Army();
+        
+        Assertions.assertThat(army.getFrontSoldier()).isNull();
+    }
 
     @Test
     public void Army_AddOneSoldierToArmy_ArmyHasFrontSoldier() {
@@ -36,4 +43,27 @@ public class ArmyTest {
         
         Assertions.assertThat(army.getFrontSoldier()).isEqualTo(soldierS1);
     }
+    
+    @Test
+    public void Army_attackArmy_() {
+    	Army armyA = getArmy("A", 1);
+    	Army armyB = getArmy("B", 1);
+    	
+    	Army winner = armyA.attack(armyB);
+    	
+        Assertions.assertThat(winner.getFrontSoldier()).isNotNull();
+        Assertions.assertThat(winner).isEqualTo(armyA);
+        Assertions.assertThat(armyB.getFrontSoldier()).isNull();
+    }
+
+	private Army getArmy(String soldierPefix, int nbOfSoldiers) {       
+        Army army = new Army();
+        for (int i=0; i < nbOfSoldiers; i++)
+        {
+        	Soldier soldier = new Soldier(soldierPefix + i);
+        	army.addSoldier(soldier);
+        }
+        
+        return army;
+	}
 }
