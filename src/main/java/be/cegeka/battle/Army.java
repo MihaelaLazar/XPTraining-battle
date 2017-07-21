@@ -7,9 +7,14 @@ import java.util.List;
 public class Army {
 
 	List<Soldier> soldiers = new LinkedList<>();
+	IHeadquarters headquarters;
+	
+	public Army(IHeadquarters headquarters) {
+		this.headquarters = headquarters;
+	}
 
 	public void addSoldier(Soldier soldier) {
-		soldiers.add(soldier);
+		addSoldiers(soldier);
 	}
 
 	public Soldier getFrontSoldier() {
@@ -18,6 +23,9 @@ public class Army {
 
 	public void addSoldiers(Soldier... soldiersToAdd) {
 		soldiers.addAll(Arrays.asList(soldiersToAdd));
+		for (Soldier s : soldiersToAdd) {
+			s.setId(headquarters.reportEnlistment(s.getName()));
+		}
 	}
 
 	public Army attack(Army otherArmy) {

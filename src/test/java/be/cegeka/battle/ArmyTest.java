@@ -1,13 +1,23 @@
 package be.cegeka.battle;
 
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ArmyTest {
+	
+	@Mock
+	IHeadquarters headquarters;
 	
 	@Test
     public void Army_NoSoldierToArmy_ArmyHasNoFrontSoldier() {
-        Army army = new Army();
+        Army army = new Army(headquarters);
         
         Assertions.assertThat(army.getFrontSoldier()).isNull();
     }
@@ -15,7 +25,7 @@ public class ArmyTest {
     @Test
     public void Army_AddOneSoldierToArmy_ArmyHasFrontSoldier() {
         Soldier soldier = new Soldier("S1");
-        Army army = new Army();
+        Army army = new Army(headquarters);
         army.addSoldier(soldier);
         
         Assertions.assertThat(army.getFrontSoldier()).isEqualTo(soldier);
@@ -26,7 +36,7 @@ public class ArmyTest {
         Soldier soldierS1 = new Soldier("S1");
         Soldier soldierS2 = new Soldier("S1");
         
-        Army army = new Army();
+        Army army = new Army(headquarters);
         army.addSoldier(soldierS1);
         army.addSoldier(soldierS2);
         
@@ -38,7 +48,7 @@ public class ArmyTest {
         Soldier soldierS1 = new Soldier("S1");
         Soldier soldierS2 = new Soldier("S1");
         
-        Army army = new Army();
+        Army army = new Army(headquarters);
         army.addSoldiers(soldierS1, soldierS2);
         
         Assertions.assertThat(army.getFrontSoldier()).isEqualTo(soldierS1);
@@ -69,7 +79,7 @@ public class ArmyTest {
     }
 
 	private Army getArmy(String soldierPefix, int nbOfSoldiers) {       
-        Army army = new Army();
+        Army army = new Army(headquarters);
         for (int i=0; i < nbOfSoldiers; i++)
         {
         	Soldier soldier = new Soldier(soldierPefix + i);
@@ -78,4 +88,26 @@ public class ArmyTest {
         
         return army;
 	}
+	
+    @Test
+    public void soldier_SoldierEnlisted_HQCalled() {
+    	Soldier soldier = new Soldier("name");
+    	Army army = new Army(headquarters);
+    	army.addSoldier(soldier);
+    	
+    	verify(headquarters).reportEnlistment("name");
+    }
+    
+    @Test
+    public void soldier_SoldierEnlisted_HQCalledWithIdAssigned() {
+    	Soldier soldier = new Soldier("name");
+    	Army army = new Army(headquarters);
+    	
+    	when(headquarters.reportEnlistment("name")).thenReturn(1000);
+    	
+    	army.addSoldier(soldier);
+    	
+    	verify(headquarters).reportEnlistment("name");
+    	Assertions.assertThat(soldier.getId()).isEqualTo(1000);
+    }
 }

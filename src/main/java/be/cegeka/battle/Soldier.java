@@ -9,8 +9,9 @@ public class Soldier {
     private String name;
     private Weapon weapon;
     private boolean isAlive = true;
+    private int id;
 
-    public Soldier(String name) {
+	public Soldier(String name) {
         Validate.isTrue(isNotBlank(name));
 
         this.name = name;
@@ -49,4 +50,12 @@ public class Soldier {
     public int getWeaponDamage() {
         return weapon.getDamage();
     }
+    
+    public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 }
