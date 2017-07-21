@@ -7,10 +7,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SoldierTest {
 
     @Test
-    public void construction_ASoldierMustHaveAName() {
+    public void construction_ASoldierMustHaveANameAndBeAlive() {
         Soldier soldier = new Soldier("name");
 
         assertThat(soldier.getName()).isEqualTo("name");
+        assertThat(soldier.isAlive()).isTrue();
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -35,4 +36,23 @@ public class SoldierTest {
         assertThat(soldier.getWeapon()).isEqualTo(Weapon.BARE_FIST);
     }
 
+    @Test
+    public void attack_FirstSoldierWithWeakerWeapon_dies() {
+        Soldier firstSoldier = new Soldier("name");
+        Soldier secondSoldier = new Soldier("name", Weapon.AXE);
+
+        firstSoldier.attack(secondSoldier);
+        assertThat(firstSoldier.isAlive()).isFalse();
+        assertThat(secondSoldier.isAlive()).isTrue();
+    }
+
+    @Test
+    public void attack_FirstSoldierWithStrongerWeapon_wins() {
+        Soldier firstSoldier = new Soldier("name", Weapon.AXE);
+        Soldier secondSoldier = new Soldier("name");
+
+        firstSoldier.attack(secondSoldier);
+        assertThat(firstSoldier.isAlive()).isTrue();
+        assertThat(secondSoldier.isAlive()).isFalse();
+    }
 }
